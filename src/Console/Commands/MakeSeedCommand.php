@@ -59,6 +59,12 @@ class MakeSeedCommand extends Command
 
 
         $className = $this->option('class-name');
+        if($className == ""){
+            $this->error('error \'--class-name\' cant be empty !');
+            $this->info('usage : ');
+            $this->info('php artisan csv-seed --class-name=ClassName');
+            die();
+        }
 
         $field_csv = $this->ask('Columns (ex: name|email|password)');
 
