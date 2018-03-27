@@ -1,0 +1,1 @@
+This is demo view file for Feripratama\MakeSeed package using blade template
