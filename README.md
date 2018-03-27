@@ -1,0 +1,2 @@
+# make-seed
+generate seed
