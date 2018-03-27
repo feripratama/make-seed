@@ -44,13 +44,6 @@ class MakeSeedCommand extends Command
      */
     public function handle()
     {
-        $env = file(base_path().'/.env');
-
-        $env = preg_grep('/^APP_KEY=/',$env);
-
-        $env = str_after(array_values($env)[0],'=');
-
-        dd($env);
 
         $field_replace = "
         \$this->model->create([
@@ -102,11 +95,8 @@ class MakeSeedCommand extends Command
         $stub_file = str_replace('{%MODEL%}',$modelName,$stub_file);
 
 
-        //dd($stub_file);
-
         File::put(database_path().'/seeds/'.$className.'.php',$stub_file);
         File::put(database_path().'/seeds/'.$className.'.csv','');
-        //dd(database_path().'/test/'.$className.'.php');
 
         $this->info('Seeder has been create on : ');
         $this->info('Seeder File : '.database_path().'/seeds/'.$className.'.php');
