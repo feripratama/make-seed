@@ -46,9 +46,9 @@ class MakeSeedCommand extends Command
     {
 
         $field_replace = "
-        \$this->model->create([
+        \t\$this->model->create([
             {%FIELDS%}
-        ]);
+        \t]);
         ";
 
         $field_csv_replace = "{%FIELDS%}";
@@ -56,6 +56,8 @@ class MakeSeedCommand extends Command
         $field_csv_change = '';
 
         $field_change = '';
+
+        $output_change = '';
 
 
         $className = $this->option('class-name');
@@ -70,13 +72,16 @@ class MakeSeedCommand extends Command
 
         $modelName = $this->ask('Model name (ex: App\User)');
 
-        $fields_csv = explode('|',$field_csv);
-
+        $fields_csv = explode('|',$field_csv);        
+            
         foreach($fields_csv as $key => $field){
             if($key > 0){
-                $field_change .= "\t\t\t'$field' => \$data['".$field."'],\n";
+                $field_change .= "\t\t\t\t'$field' => \$data['".$field."'],\n";
+                $output_change .= "\t\t\t\$this->orangeText('".$field." : ').\$this->greenText(\$data['".$field."']);\n";
+                $output_change .= "\t\t\techo\"\\n\";\n";
             }else{
-                $field_change .= "'$field' => \$data['".$field."'],\n";
+                $field_change .= "\t'$field' => \$data['".$field."'],\n";
+                $output_change .= "\$this->orangeText('".$field." : ').\$this->greenText(\$data['".$field."']);\n\t\t\techo\"\\n\";\n";
             }
 
             $field_csv_change .= "'$field' => \$data[$key],";
@@ -86,11 +91,13 @@ class MakeSeedCommand extends Command
 
         $stub_file = str_replace('{%CLASS_NAME%}',$className,$stub_file);
 
-        $field_replace = str_replace('{%FIELDS%}',$field_change, $field_replace);
+        $field_replace = str_replace('{%FIELDS%}',$field_change, $field_replace);        
 
         $field_csv_replace = str_replace('{%FIELDS%}',$field_csv_change, $field_csv_replace);
 
         $stub_file = str_replace('{%CREATE%}',$field_replace,$stub_file);
+
+        $stub_file = str_replace('{%OUTPUT%}',$output_change,$stub_file);
 
         $stub_file = str_replace('{%CLASS_NAME%}',$className,$stub_file);
 
@@ -99,10 +106,10 @@ class MakeSeedCommand extends Command
         $stub_file = str_replace('{%FILE_NAME%}',$className.'.csv',$stub_file);
 
         $stub_file = str_replace('{%MODEL%}',$modelName,$stub_file);
-
+        
 
         File::put(database_path().'/seeds/'.$className.'.php',$stub_file);
-        File::put(database_path().'/seeds/'.$className.'.csv','');
+        File::put(database_path().'/seeds/'.$className.'.csv','');        
 
         $this->info('Seeder has been create on : ');
         $this->info('Seeder File : '.database_path().'/seeds/'.$className.'.php');
