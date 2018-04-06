@@ -45,6 +45,13 @@ class {%CLASS_NAME%} extends Seeder
             {%CREATE%}
 
         }
+
+        if($this->textInfo){                
+            echo "============[DATA]============\n";
+            {%OUTPUT%}        
+            echo "============[DATA]============\n\n";
+        }
+
         $this->greenText('[ SEEDER DONE ]');
         echo"\n\n";
     }
