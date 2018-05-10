@@ -9,7 +9,7 @@
 ### Install via composer :
 
 ```bash
-$ composer require feripratama/make-seed:dev-master
+$ composer require feripratama/make-seed:5.4.x-dev
 ```
 
 ### edit app/config.php
