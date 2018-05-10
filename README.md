@@ -12,23 +12,6 @@
 $ composer require feripratama/make-seed:5.5.x-dev
 ```
 
-### edit app/config.php
-
-```php
-'providers' => [
-
-        /*
-         * Laravel Framework Service Providers...
-         */
-        Illuminate\Auth\AuthServiceProvider::class,
-        Illuminate\Broadcasting\BroadcastServiceProvider::class,
-        Illuminate\Bus\BusServiceProvider::class,
-
-        /* ---------- */
-
-        Feripratama\MakeSeed\MakeSeedServiceProvider::class,
-```
-
 ### artisan command :
 
 ```bash
